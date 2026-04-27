@@ -11,3 +11,11 @@ sky:
     bucket-name: java-web-ai-6666
     access-key-secret: jGYcbzoknLUSyPmZ2iR5oOiQ6wbxeU
     access-key-id: LTAI5t8f6bfykW6dvz5Rfc9L
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 0
+  wechat:
+    appid: wx5b4a5ec1ee03f0de
+    secret: 609faf11b1757deef9e9b484e220cdc2

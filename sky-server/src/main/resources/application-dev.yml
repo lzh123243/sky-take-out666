@@ -19,3 +19,7 @@ sky:
   wechat:
     appid: wx5b4a5ec1ee03f0de
     secret: 609faf11b1757deef9e9b484e220cdc2
+  baidu:
+    ak: 5b6smoCdWLgmQn6WStsE3tzregRErxUr
+  shop:
+    address: 广东省湛江市赤坎区寸金路9号

@@ -15,10 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("userOrderController")
-@Slf4j
 @RequestMapping("/user/order")
-@Api(tags = "C端订单接口")
+@Api(tags = "用户端订单相关接口")
+@Slf4j
 public class OrderController {
+
     @Autowired
     private OrderService orderService;
 
@@ -30,10 +31,11 @@ public class OrderController {
     @PostMapping("/submit")
     @ApiOperation("用户下单")
     public Result<OrderSubmitVO> submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO){
-        log.info("用户下单：{}", ordersSubmitDTO);
-        OrderSubmitVO orderSubmitVO =orderService.submitOrder(ordersSubmitDTO);
+        log.info("用户下单，参数为：{}",ordersSubmitDTO);
+        OrderSubmitVO orderSubmitVO = orderService.submitOrder(ordersSubmitDTO);
         return Result.success(orderSubmitVO);
     }
+
     /**
      * 订单支付
      *
@@ -48,6 +50,7 @@ public class OrderController {
         log.info("生成预支付交易单：{}", orderPaymentVO);
         return Result.success(orderPaymentVO);
     }
+
     /**
      * 历史订单查询
      *
@@ -98,6 +101,18 @@ public class OrderController {
     @ApiOperation("再来一单")
     public Result repetition(@PathVariable Long id) {
         orderService.repetition(id);
+        return Result.success();
+    }
+
+    /**
+     * 客户催单
+     * @param id
+     * @return
+     */
+    @GetMapping("/reminder/{id}")
+    @ApiOperation("客户催单")
+    public Result reminder(@PathVariable("id") Long id){
+        orderService.reminder(id);
         return Result.success();
     }
 }

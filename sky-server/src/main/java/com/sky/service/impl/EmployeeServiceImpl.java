@@ -50,8 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         //密码比对
-        // 对前端密码进行md5加密，然后再进行比对
-        //DigestUtils为spring提供的一个工具类用来进行md5加密
+        //对前端传过来的明文密码进行md5加密处理
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!password.equals(employee.getPassword())) {
             //密码错误
@@ -66,103 +65,99 @@ public class EmployeeServiceImpl implements EmployeeService {
         //3、返回实体对象
         return employee;
     }
+
     /**
      * 新增员工
      *
      * @param employeeDTO
      */
-
-    @Override
     public void save(EmployeeDTO employeeDTO) {
-
-        System.out.println("当前线程的id："+Thread.currentThread().getId());
-
-        //建议对象转换，将DTO转成实体类
         Employee employee = new Employee();
 
-        //对象属性拷贝(当两个类的共同包含的属性名一样可用)
+        //对象属性拷贝
         BeanUtils.copyProperties(employeeDTO, employee);
 
-        //设置账号状态，默认正常为1，0表示锁定(利用自定义的常量类StatusConstant)
+        //设置账号的状态，默认正常状态 1表示正常 0表示锁定
         employee.setStatus(StatusConstant.ENABLE);
 
-        //设置密码默认常量类，对密码进行md5加密
+        //设置密码，默认密码123456
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 
         //设置当前记录的创建时间和修改时间
-//        employee.setCreateTime(LocalDateTime.now());
-//        employee.setUpdateTime(LocalDateTime.now());
+        //employee.setCreateTime(LocalDateTime.now());
+        //employee.setUpdateTime(LocalDateTime.now());
 
-        // 从当前线程中获取当前登录用户的ID
-//        employee.setCreateUser(BaseContext.getCurrentId());
-//        employee.setUpdateUser(BaseContext.getCurrentId());
+        //设置当前记录创建人id和修改人id
+        //employee.setCreateUser(BaseContext.getCurrentId());
+        //employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
     }
+
     /**
      * 分页查询
      *
      * @param employeePageQueryDTO
      * @return
      */
-    @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-        //select * from employee limit 0,10;
-        //pagehelper会自动拼接 limit后面的语句
+        // select * from employee limit 0,10
         //开始分页查询
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
-        //Page<Employee> page为泛型，里面存放的是查询结果，注意Page为PageHelper提供的一个类
+
         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+
         long total = page.getTotal();
-        List<Employee> result = page.getResult();
-        return new PageResult(total, result);
+        List<Employee> records = page.getResult();
+
+        return new PageResult(total, records);
     }
+
     /**
      * 启用禁用员工账号
      *
      * @param status
      * @param id
      */
-    @Override
     public void startOrStop(Integer status, Long id) {
-        //update employee set status = ? where id = ?
+        // update employee set status = ? where id = ?
 
-        //法一：
-      /*Employee employee = new Employee();
+        /*Employee employee = new Employee();
         employee.setStatus(status);
         employee.setId(id);*/
 
-        //法二：利用builder()方法
         Employee employee = Employee.builder()
                 .status(status)
                 .id(id)
                 .build();
+
         employeeMapper.update(employee);
     }
+
     /**
-     * 根据id查询员工信息
+     * 根据id查询员工
      *
      * @param id
      * @return
      */
-    @Override
     public Employee getById(Long id) {
-        Employee employee =employeeMapper.getByid(id);
+        Employee employee = employeeMapper.getById(id);
         employee.setPassword("****");
         return employee;
     }
 
-    @Override
+    /**
+     * 编辑员工信息
+     *
+     * @param employeeDTO
+     */
     public void update(EmployeeDTO employeeDTO) {
-        //属性拷贝，把DTO对象中的属性值复制到employee对象中以便调用动态update方法
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
 
-//        employee.setUpdateTime(LocalDateTime.now());
-//        employee.setUpdateUser(BaseContext.getCurrentId());
+        //employee.setUpdateTime(LocalDateTime.now());
+        //employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.update(employee);
     }
-
-
 }

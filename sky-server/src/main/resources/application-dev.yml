@@ -5,21 +5,24 @@ sky:
     port: 3306
     database: sky_take_out
     username: root
-    password: 1122334334
+    password: root
   alioss:
-    endpoint: https://oss-cn-beijing.aliyuncs.com
-    bucket-name: java-web-ai-6666
-    access-key-secret: jGYcbzoknLUSyPmZ2iR5oOiQ6wbxeU
-    access-key-id: LTAI5t8f6bfykW6dvz5Rfc9L
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: your-access-key-id
+    access-key-secret: your-access-key-secret
+    bucket-name: your-bucket-name
   redis:
     host: localhost
     port: 6379
     password: 123456
-    database: 0
+    database: 10
   wechat:
-    appid: wx5b4a5ec1ee03f0de
-    secret: 609faf11b1757deef9e9b484e220cdc2
-  baidu:
-    ak: 5b6smoCdWLgmQn6WStsE3tzregRErxUr
-  shop:
-    address: 广东省湛江市赤坎区寸金路9号
+    appid: wxffb3637a228223b8
+    secret: 84311df9199ecacdf4f12d27b6b9522d
+    mchid : 1561414331
+    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+    privateKeyFilePath: D:\pay\apiclient_key.pem
+    apiV3Key: CZBK51236435wxpay435434323FFDuv3
+    weChatPayCertFilePath: D:\pay\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+    notifyUrl: https://58869fb.r2.cpolar.top/notify/paySuccess
+    refundNotifyUrl: https://58869fb.r2.cpolar.top/notify/refundSuccess

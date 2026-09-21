@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.*;
  * 订单管理
  */
 @RestController("adminOrderController")
-@Slf4j
 @RequestMapping("/admin/order")
+@Slf4j
 @Api(tags = "订单管理接口")
 public class OrderController {
+
     @Autowired
     private OrderService orderService;
 
@@ -87,6 +88,7 @@ public class OrderController {
         orderService.rejection(ordersRejectionDTO);
         return Result.success();
     }
+
     /**
      * 取消订单
      *

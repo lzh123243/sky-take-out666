@@ -8,8 +8,20 @@ import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 
 public interface OrderService {
+    /**
+     * 用户下单
+     * @param ordersSubmitDTO
+     * @return
+     */
     OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO);
-    OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO);
+
+    /**
+     * 订单支付
+     * @param ordersPaymentDTO
+     * @return
+     */
+    OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO) throws Exception;
+
     /**
      * 支付成功，修改订单状态
      * @param outTradeNo
@@ -40,7 +52,6 @@ public interface OrderService {
 
     /**
      * 再来一单
-     *
      * @param id
      */
     void repetition(Long id);
@@ -92,4 +103,10 @@ public interface OrderService {
      * @param id
      */
     void complete(Long id);
+
+    /**
+     * 客户催单
+     * @param id
+     */
+    void reminder(Long id);
 }

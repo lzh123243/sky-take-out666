@@ -53,11 +53,25 @@ public class AliOssUtil {
         }
 
         //文件访问路径规则 https://BucketName.Endpoint/ObjectName
+        // 处理 endpoint，防止环境变量中自带的 https:// 导致拼接出重复协议头
+        String domain = endpoint;
+        if (domain.startsWith("https://")) {
+            domain = domain.substring(8);
+        } else if (domain.startsWith("http://")) {
+            domain = domain.substring(7);
+        }
+
+        // 防止域名末尾有斜杠
+        if (domain.endsWith("/")) {
+            domain = domain.substring(0, domain.length() - 1);
+        }
+
+        // 文件访问路径规则 https://BucketName.Endpoint/ObjectName
         StringBuilder stringBuilder = new StringBuilder("https://");
         stringBuilder
                 .append(bucketName)
                 .append(".")
-                .append(endpoint)
+                .append(domain)          // 使用处理后的 domain 拼接，而不是原 endpoint
                 .append("/")
                 .append(objectName);
 
